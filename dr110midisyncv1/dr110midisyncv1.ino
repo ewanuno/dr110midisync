@@ -33,7 +33,8 @@ bool ledState = 0;
     
 void setup() {
 
-  
+pinMode(ledPin, OUTPUT);
+
   // setup the callbacks
 MIDI.setHandleClock(MidiClock); //Callback for midi clock
 MIDI.setHandleStart(MidiStart); //Callback for midi start
@@ -41,6 +42,8 @@ MIDI.setHandleStart(MidiStop); //Callback for midi stop
 MIDI.setHandleStart(MidiContinue); //Callback for midi Continue
 
 MIDI.begin(MIDI_CHANNEL_OMNI); // start midi, listening to all channels, it would be nice to switch this off(MIDI_CHANNEL_OFF) and only get channel ode messages.
+
+//flashLed(10000);
 }
 
 
@@ -71,24 +74,26 @@ void MidiContinue(){
   }  
 
 
-void flashLed(unsigned long ledMillis){
-  ledTimer = ledMillis;
-  }
+void flashled(unsigned long ledmillis){
+  //update timestamp
+  ledTimestamp = millis();
+  ledTimer = ledmillis;
+}
   
 void handleLed(){
 
-  //to turn the led on , just set it to a non zero value. it will turn off after that many milisecconds
-  unsigned long ledTimerCurrent = millis();
+  // get current time
+unsigned long currentTime = millis();
 
- //update ledtimer
- ledTimer = ledTimer - (ledTimerCurrent-ledTimerPrevious);
+  // is current current time - timestamp less than timer?
 
- // check ledtimer is not zero.
- if (!(ledTimer > 0)){
-  
-  ledState = false;
-  }
- //set led state.
-  digitalWrite(ledPin, ledState);
+  if (currentTime - ledTimestamp < ledTimer){
     
-  }
+    digitalWrite(ledPin, HIGH);
+    } else {
+      digitalWrite(ledPin, LOW);
+    }
+  // turn on led
+  // else turn led off.
+  
+}
