@@ -25,11 +25,9 @@ const int dr110ClockTimeMs = 20; // the service manual states that clock pulse l
 const int ppqn = 12; //PulsesPerQuaterNote, for the dr110 there are 12 pulses per quater note.
 
 // stuff for the led
-const int ledPin = 1;
-long ledTimer = 0;
-const long ledFlashTimeMs = 50; // how long to flash the led for
-unsigned long ledTimerPrevious = 0;
-bool ledState = 0;
+unsigned long ledTimestamp = 0;
+unsigned long ledTimer = 0;
+int ledPin = 1;
     
 void setup() {
 
@@ -43,7 +41,7 @@ MIDI.setHandleStart(MidiContinue); //Callback for midi Continue
 
 MIDI.begin(MIDI_CHANNEL_OMNI); // start midi, listening to all channels, it would be nice to switch this off(MIDI_CHANNEL_OFF) and only get channel ode messages.
 
-//flashLed(10000);
+flashled(10000);
 }
 
 
